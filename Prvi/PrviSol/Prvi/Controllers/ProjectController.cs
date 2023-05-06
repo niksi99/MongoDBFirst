@@ -47,7 +47,7 @@ namespace Prvi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProjectsWithEmployyesOnThem()
         {
-            return Ok(this.projectService.GetAllProject());
+            return Ok(await this.projectService.GetAllProject());
         }
     }
 }

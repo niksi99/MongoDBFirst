@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "p7euJ/rBuHH9117eEoOBdzMCQqdnUfLDBT/SN+a+2Kd6+29+/b3k7rN0cAI7TC1o57ZkCTgzEumtoB88sKKpvA==",
+  "dgSpecHash": "8J+awUGHhX9dq2ipUu3PJoIxplXvynwTtWDzcuHW5XBU6Kf9h2ykTFCb6+pe1JsJXIbFXqFZOl2DSaL2zh5Itw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nixy\\Desktop\\Licno\\DOTNET\\MongoDB\\Prvi\\PrviSol\\Prvi\\Prvi.csproj",
+  "projectFilePath": "C:\\Users\\Nixy\\Documents\\MongoDBFirst\\Prvi\\PrviSol\\Prvi\\Prvi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nixy\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Nixy\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

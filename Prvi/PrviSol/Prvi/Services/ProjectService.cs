@@ -20,28 +20,8 @@ namespace Prvi.Services
         public async Task CreateNewProject(Project p) =>
             await this.projectCollection.InsertOneAsync(p);
 
-        public async Task<BsonDocument> GetAllProject()
-        {
-            var result = await this.projectCollection
-               .Aggregate()
-               .Unwind<Project, Employee>(i => i.EmployeesOnProject)
-               .Group(
-                   k => k.Id,
-                   g => new
-                   {
-                       EmpoyeeId = g.Key,
-                       FirstName = g.First().FirstName,
-                       LastName = g.First().LastName,
-                       Occupation = g.First().Occupation,
-                       Payement = g.First().Payement
-                      
-                   })
-               .ToListAsync();
-
-            return result.ToBsonDocument();
-        }
-
-        
+        public async Task<List<Project>> GetAllProject() =>
+            await this.projectCollection.Find(_ => true).ToListAsync();
 
         public async Task<Project> GetProjectByProjName(string projName) =>
             await projectCollection.Find(p => p.ProjectName == projName).FirstOrDefaultAsync();
