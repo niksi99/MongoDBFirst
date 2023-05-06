@@ -31,6 +31,15 @@ namespace Prvi.Services
         public async Task<List<Employee>> GetAllEmployeesByNameAggr(string fName) =>
             await this.employeeCollection.Aggregate().Match(x => x.FirstName == fName).ToListAsync();
 
+        public async Task<List<Employee>> GetAllEmployeesByNameIndexes(string fName)
+        {
+            var filter = Builders<Employee>.Filter.Text($"{fName}");
+            var trazeniZaposleni = await this.employeeCollection.Find(filter).ToListAsync();
+            return trazeniZaposleni;
+        }
+        //await this.employeeCollection.Find($"{{$search: \"{fName}\"}}").ToListAsync();
+        //{$text: {$search: "Noah"}}, {score: {$meta: "textScore"}})
+        //ind($"{{\"employees.JMBG\":\'{jmbg}\'}}")
         public List<BsonDocument> GetAllEmployeesByPlataAggr()
         {
             return this.employeeCollection.Aggregate().Group(
