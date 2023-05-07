@@ -10,7 +10,8 @@ namespace Prvi.Services
     {
         private readonly IMongoCollection<Project> projectCollection;
 
-        public ProjectService(IOptions<MyMongoDB> mongoDBSettings) {
+        public ProjectService(IOptions<MyMongoDB> mongoDBSettings)
+        {
             var mongoClient = new MongoClient(mongoDBSettings.Value.ConnectionString);
             var mongoDB = mongoClient.GetDatabase(mongoDBSettings.Value.DatabaseName);
 
@@ -28,6 +29,7 @@ namespace Prvi.Services
 
         public async Task UpdateAsync(string id, Project updatedProject) =>
             await this.projectCollection.ReplaceOneAsync(x => x.Id == id, updatedProject);
+
 
     }
 }

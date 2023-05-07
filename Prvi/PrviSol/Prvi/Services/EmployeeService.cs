@@ -14,6 +14,7 @@ namespace Prvi.Services
             var mongoClient = new MongoClient(mongoDBSettings.Value.ConnectionString);
             var mongoDBs = mongoClient.GetDatabase(mongoDBSettings.Value.DatabaseName);
             this.employeeCollection = mongoDBs.GetCollection<Employee>("employees");
+            
         }
 
         public async Task CreateNewEmployee(Employee e) =>
@@ -67,9 +68,25 @@ namespace Prvi.Services
 
         public async Task<Employee> GetIndexes(string jmbg) =>
             await this.employeeCollection.Find($"{{\"EmployeesOnProject.JMBG \":\'{jmbg}\'}}").FirstOrDefaultAsync();
-        
 
+        private async void createIndex(int payement) {
+            var indexOptions = new CreateIndexOptions();
+            var indexKeys = Builders<Employee>.IndexKeys.Ascending(x => x.Payement == payement);
+            var myIndex = new CreateIndexModel<Employee>(indexKeys, indexOptions);
+            await this.employeeCollection.Indexes.CreateOneAsync(myIndex);
+        }
+
+        private async void createIndex2(int payement)
+        {
+            var options = new CreateIndexOptions { Unique = true };
+            await this.employeeCollection.Indexes.CreateOneAsync($"{{ payement: '{payement}'}}");
+        }
+
+        public async Task<List<Employee>> GetAllEmp(int payement) {
+            createIndex2(payement);
+            return await this.employeeCollection.Find(x => x.Payement == payement).ToListAsync();
+        }
         public async Task<List<Employee>> GetAllEmployeesByName(string emplName) =>
             await this.employeeCollection.Find(e => e.FirstName == emplName).ToListAsync();
-    }
+        }
 }
