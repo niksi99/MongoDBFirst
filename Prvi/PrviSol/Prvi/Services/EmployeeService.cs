@@ -59,7 +59,7 @@ namespace Prvi.Services
             
         }
 
-        public async Task CreateIndex() {
+        private async Task CreateIndex() {
             //this.employeeCollection.Indexes<Employee>();
             var indexKeysDefinition = Builders<Employee>.IndexKeys.Ascending(e => e.Payement);
             await this.employeeCollection.Indexes.CreateOneAsync(new CreateIndexModel<Employee>(indexKeysDefinition));
@@ -69,21 +69,30 @@ namespace Prvi.Services
         public async Task<Employee> GetIndexes(string jmbg) =>
             await this.employeeCollection.Find($"{{\"EmployeesOnProject.JMBG \":\'{jmbg}\'}}").FirstOrDefaultAsync();
 
-        private async void createIndex(int payement) {
-            var indexOptions = new CreateIndexOptions();
-            var indexKeys = Builders<Employee>.IndexKeys.Ascending(x => x.Payement == payement);
-            var myIndex = new CreateIndexModel<Employee>(indexKeys, indexOptions);
-            await this.employeeCollection.Indexes.CreateOneAsync(myIndex);
-        }
+        //private async Task createIndex(int payement) {
+        //    var indexOptions = new CreateIndexOptions();
+        //    var indexKeys = Builders<Employee>.IndexKeys.Ascending(x => x.Payement == payement);
+        //    var myIndex = new CreateIndexModel<Employee>(indexKeys, indexOptions);
+        //    await this.employeeCollection.Indexes.CreateOneAsync(myIndex);
+        //}
 
-        private async void createIndex2(int payement)
-        {
-            var options = new CreateIndexOptions { Unique = true };
-            await this.employeeCollection.Indexes.CreateOneAsync($"{{ payement: '{payement}'}}");
-        }
+        //private async void createIndex2(int payement)
+        //{
+        //    var options = new CreateIndexOptions { Unique = true };
+        //    await this.employeeCollection.Indexes.CreateOneAsync("{payement: payement}", options);
+        //}
 
         public async Task<List<Employee>> GetAllEmp(int payement) {
-            createIndex2(payement);
+            CreateIndex();
+
+            using (var cursor = this.employeeCollection.Indexes.List())
+            {
+                foreach (var document in cursor.ToEnumerable())
+                {
+                    Console.WriteLine(" ##### " + document.ToString());
+                }
+            }
+
             return await this.employeeCollection.Find(x => x.Payement == payement).ToListAsync();
         }
         public async Task<List<Employee>> GetAllEmployeesByName(string emplName) =>

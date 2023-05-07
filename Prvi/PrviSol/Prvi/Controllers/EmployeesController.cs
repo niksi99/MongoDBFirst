@@ -99,12 +99,12 @@ namespace Prvi.Controllers
             return Ok(this.employeeService.GetAllEmployeesByPlataAggr());
         }
 
-        [Route("CreateIndex")]
-        [HttpPost]
-        public async Task<IActionResult> CreateIndex()
-        {
-            await this.employeeService.CreateIndex();
-            return Ok("radi");
-        }
+        //[Route("CreateIndex")]
+        //[HttpPost]
+        //public async Task<IActionResult> CreateIndex()
+        //{
+        //    await this.employeeService.CreateIndex();
+        //    return Ok("radi");
+        //}
     }
 }
