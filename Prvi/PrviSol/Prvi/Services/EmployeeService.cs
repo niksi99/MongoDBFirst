@@ -37,6 +37,15 @@ namespace Prvi.Services
             var trazeniZaposleni = await this.employeeCollection.Find(filter).ToListAsync();
             return trazeniZaposleni;
         }
+
+        public async Task<List<Employee>> GetAllEmployeesByPayementIndexes(int payement)
+        {
+            var filter = Builders<Employee>.Filter.Eq(p => p.Payement, payement);
+            var trazeniZaposleni = await this.employeeCollection.Find(filter).ToListAsync();
+            return trazeniZaposleni;
+        }
+
+
         //await this.employeeCollection.Find($"{{$search: \"{fName}\"}}").ToListAsync();
         //{$text: {$search: "Noah"}}, {score: {$meta: "textScore"}})
         //ind($"{{\"employees.JMBG\":\'{jmbg}\'}}")

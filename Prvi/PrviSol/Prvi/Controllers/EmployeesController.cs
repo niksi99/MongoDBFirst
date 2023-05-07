@@ -71,6 +71,16 @@ namespace Prvi.Controllers
             return Ok(provera);
         }
 
+        [Route("GetAllEmployeesByThatPayementIndexes/{payement}")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllEmployeesByThatPayementIndexes(int payement)
+        {
+            var provera = await this.employeeService.GetAllEmployeesByPayementIndexes(payement);
+            if (provera == null)
+                return BadRequest("Ne postoji zaposleni sa tim imenom");
+            return Ok(provera);
+        }
+
         [Route("GetAllPlata")]
         [HttpGet]
         public async Task<IActionResult> GetAllPlata()
