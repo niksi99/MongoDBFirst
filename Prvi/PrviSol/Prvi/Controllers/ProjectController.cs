@@ -49,5 +49,11 @@ namespace Prvi.Controllers
         {
             return Ok(await this.projectService.GetAllProject());
         }
+
+        [Route("GetProjectByEmployeeJMBG/{jmbg}")]
+        [HttpGet]
+        public async Task<IActionResult> GetProjectByEmployeeJMBG(string jmbg) {
+            return Ok(await this.projectService.GetProjectByEmployeeJMBG(jmbg));
+        }
     }
 }

@@ -85,7 +85,17 @@ namespace Prvi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEmployeesByThatPayementIndexes2(int payement)
         {
-            var provera = await this.employeeService.GetAllEmp(payement);
+            var provera = await this.employeeService.GetAllEmpByPayment(payement);
+            if (provera is null)
+                return BadRequest("Ne postoji zaposleni sa tim imenom");
+            return Ok(provera);
+        }
+
+        [Route("GetAllEmployeesByThatOccupationIndexes/{occupation}")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllEmployeesByThatOccupationIndexes(string occupation)
+        {
+            var provera = await this.employeeService.GetAllEmpByOccup(occupation);
             if (provera == null)
                 return BadRequest("Ne postoji zaposleni sa tim imenom");
             return Ok(provera);
@@ -99,12 +109,6 @@ namespace Prvi.Controllers
             return Ok(this.employeeService.GetAllEmployeesByPlataAggr());
         }
 
-        //[Route("CreateIndex")]
-        //[HttpPost]
-        //public async Task<IActionResult> CreateIndex()
-        //{
-        //    await this.employeeService.CreateIndex();
-        //    return Ok("radi");
-        //}
+        
     }
 }

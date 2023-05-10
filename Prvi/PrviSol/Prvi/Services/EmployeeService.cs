@@ -65,6 +65,13 @@ namespace Prvi.Services
             await this.employeeCollection.Indexes.CreateOneAsync(new CreateIndexModel<Employee>(indexKeysDefinition));
         }
 
+        private async Task CreateIndexByOccupation()
+        {
+            //this.employeeCollection.Indexes<Employee>();
+            var indexKeysDefinition = Builders<Employee>.IndexKeys.Ascending(e => e.Occupation);
+            await this.employeeCollection.Indexes.CreateOneAsync(new CreateIndexModel<Employee>(indexKeysDefinition));
+        }
+
 
         public async Task<Employee> GetIndexes(string jmbg) =>
             await this.employeeCollection.Find($"{{\"EmployeesOnProject.JMBG \":\'{jmbg}\'}}").FirstOrDefaultAsync();
@@ -82,7 +89,7 @@ namespace Prvi.Services
         //    await this.employeeCollection.Indexes.CreateOneAsync("{payement: payement}", options);
         //}
 
-        public async Task<List<Employee>> GetAllEmp(int payement) {
+        public async Task<List<Employee>> GetAllEmpByPayment(int payement) {
             CreateIndex();
 
             using (var cursor = this.employeeCollection.Indexes.List())
@@ -94,6 +101,22 @@ namespace Prvi.Services
             }
 
             return await this.employeeCollection.Find(x => x.Payement == payement).ToListAsync();
+        }//$"{{payement:\'{payement}\'}}"
+        //ind($"{{\"employees.JMBG\":\'{jmbg}\'}}")
+
+        public async Task<List<Employee>> GetAllEmpByOccup(string occupation)
+        {
+            CreateIndexByOccupation();
+
+            using (var cursor = this.employeeCollection.Indexes.List())
+            {
+                foreach (var document in cursor.ToEnumerable())
+                {
+                    Console.WriteLine(" ##### " + document.ToString());
+                }
+            }
+
+            return await this.employeeCollection.Find(x => x.Occupation == occupation).ToListAsync();
         }
         public async Task<List<Employee>> GetAllEmployeesByName(string emplName) =>
             await this.employeeCollection.Find(e => e.FirstName == emplName).ToListAsync();
