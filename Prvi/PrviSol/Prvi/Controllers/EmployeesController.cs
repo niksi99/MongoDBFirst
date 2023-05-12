@@ -101,14 +101,22 @@ namespace Prvi.Controllers
             return Ok(provera);
         }
 
-        [Route("GetAllPlata")]
+        [Route("GetAllPlata1")]
         [HttpGet]
-        public async Task<IActionResult> GetAllPlata()
+        public async Task<IActionResult> GetAllPlata1()
         {
            
-            return Ok(this.employeeService.GetAllEmployeesByPlataAggr());
+            return Ok(await this.employeeService.GetAllEmployeesByPlataAggr());
         }
 
-        
+        [Route("GetAllPlata2/{fName}")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPlata2(string fName)
+        {
+
+            return Ok(await this.employeeService.GetAllEmployeesByPlataAggrMatch(fName));
+        }
+
+
     }
 }

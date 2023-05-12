@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Prvi.Models.Aggregations;
 using Prvi.Models.Db;
 using Prvi.Models.Entities;
 
@@ -14,7 +15,7 @@ namespace Prvi.Services
             var mongoClient = new MongoClient(mongoDBSettings.Value.ConnectionString);
             var mongoDBs = mongoClient.GetDatabase(mongoDBSettings.Value.DatabaseName);
             this.employeeCollection = mongoDBs.GetCollection<Employee>("employees");
-            
+
         }
 
         public async Task CreateNewEmployee(Employee e) =>
@@ -50,13 +51,36 @@ namespace Prvi.Services
         //await this.employeeCollection.Find($"{{$search: \"{fName}\"}}").ToListAsync();
         //{$text: {$search: "Noah"}}, {score: {$meta: "textScore"}})
         //ind($"{{\"employees.JMBG\":\'{jmbg}\'}}")
-        public List<BsonDocument> GetAllEmployeesByPlataAggr()
+        public async Task<List<AggregationEmployee>> GetAllEmployeesByPlataAggr()
         {
-            return this.employeeCollection.Aggregate().Group(
-                    new BsonDocument {
-                        { "_id", "$Payement"}
-                    }).ToList();
-            
+            return await this.employeeCollection.Aggregate().Group(
+                    PP => PP.Payement,
+                    y => new AggregationEmployee{ 
+                        intAgg = y.Key,
+                        employeeAgg = y.OrderByDescending(x => x.Payement).First()
+                    }
+                    //new BsonDocument {
+                    //    { "_id", "{payement: \"$payement\"}"}
+                    ).ToListAsync();
+
+
+        }
+
+        public async Task<List<AggregationEmployee>> GetAllEmployeesByPlataAggrMatch(string fName)
+        {
+            var filter = Builders<Employee>.Filter.Eq(A => A.FirstName, fName);
+            return await this.employeeCollection.Aggregate().Match(filter).Group(
+                    PP => PP.Payement,
+                    y => new AggregationEmployee
+                    {
+                        intAgg = y.Key,
+                        employeeAgg = y.OrderByDescending(x => x.Payement).First()
+                    }
+                    //new BsonDocument {
+                    //    { "_id", "{payement: \"$payement\"}"}
+                    ).ToListAsync();
+
+
         }
 
         private async Task CreateIndex() {
