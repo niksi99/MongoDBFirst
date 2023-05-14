@@ -906,11 +906,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nixy\\Desktop\\Licno\\DOTNET\\MongoDB\\Prvi\\PrviSol\\Prvi\\Prvi.csproj",
+      "projectUniqueName": "C:\\Users\\Nixy\\Documents\\MongoDBFirst\\Prvi\\Prvi.csproj",
       "projectName": "Prvi",
-      "projectPath": "C:\\Users\\Nixy\\Desktop\\Licno\\DOTNET\\MongoDB\\Prvi\\PrviSol\\Prvi\\Prvi.csproj",
+      "projectPath": "C:\\Users\\Nixy\\Documents\\MongoDBFirst\\Prvi\\Prvi.csproj",
       "packagesPath": "C:\\Users\\Nixy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nixy\\Desktop\\Licno\\DOTNET\\MongoDB\\Prvi\\PrviSol\\Prvi\\obj\\",
+      "outputPath": "C:\\Users\\Nixy\\Documents\\MongoDBFirst\\Prvi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
